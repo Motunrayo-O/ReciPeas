@@ -1,28 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { Text } from "@chakra-ui/react";
-import apiClient from "../services/api-client";
-
-interface Recipe {
-  id: number;
-  title: string;
-}
-
-interface FetchRecipesResponse {
-  recipes: Recipe[];
-}
+import useRecipes from "../hooks/useRecipes";
 
 const RecipesGrid = () => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    apiClient
-      .get<FetchRecipesResponse>("/random?number=10")
-      .then((response) => {
-        setRecipes(response.data.recipes);
-      })
-      .catch((error) => setError(error.message));
-  }, []);
+  const { recipes, error } = useRecipes();
 
   return (
     <>
