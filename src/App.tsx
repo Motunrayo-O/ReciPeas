@@ -2,6 +2,8 @@ import "./App.css";
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import RecipesGrid from "./components/RecipesGrid";
+import SidePanel from "./components/SidePanel";
+import IngredientsList from "./components/IngredientsList";
 
 function App() {
   return (
@@ -15,11 +17,13 @@ function App() {
         <NavBar></NavBar>
       </GridItem>
       <Show above="lg">
-        <GridItem area="aside" bg="brown">
-          SIDE
+        <GridItem area="aside" marginTop={5}>
+          <SidePanel>
+            <IngredientsList />
+          </SidePanel>
         </GridItem>
       </Show>
-      <GridItem area="main" >
+      <GridItem area="main" marginTop={5}>
         <RecipesGrid />
       </GridItem>
     </Grid>

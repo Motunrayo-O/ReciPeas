@@ -20,10 +20,10 @@ const RecipesGrid = () => {
         padding="10px"
         spacing={10}
       >
-        {isLoading && dummyRecipes.map(() => <SkeletonRecipeCard />)}
+        {isLoading && dummyRecipes.map((i) => <SkeletonRecipeCard key={i} />)}
 
         {recipes.map((recipe) => (
-          <RecipeCard recipe={recipe} />
+          <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
       </SimpleGrid>
     </>
