@@ -7,7 +7,7 @@ export interface Recipe {
   title: string;
   image: string;
   diets: string[];
-
+  readyInMinutes: number;
 }
 
 interface FetchRecipesResponse {
@@ -21,11 +21,11 @@ const useRecipes = () => {
   useEffect(() => {
     const controller = new AbortController();
     apiClient
-      .get<FetchRecipesResponse>("/random?number=1", {
+      .get<FetchRecipesResponse>("/random?number=1&includeNutrition=false", {
         signal: controller.signal,
       })
       .then((response) => {
-        console.log(response.data.recipes[0])
+        console.log(response.data.recipes[0]);
         setRecipes(response.data.recipes);
       })
       .catch((error) => {

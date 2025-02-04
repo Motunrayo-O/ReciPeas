@@ -8,6 +8,8 @@ import {
   LuDrumstick,
 } from "react-icons/lu";
 import { TbAvocado } from "react-icons/tb";
+import { GiRoastChicken } from "react-icons/gi";
+import { TbTimeDuration30 } from "react-icons/tb";
 
 interface Props {
   diets: string[];
@@ -18,8 +20,10 @@ const iconMap: { [Key: string]: IconType } = {
   "dairy free": LuMilkOff,
   vegan: LuVegan,
   pescatarian: LuFish,
-  ketogenic: TbAvocado,
+  ketogenic: GiRoastChicken,
   primal: LuDrumstick,
+  paleolithic: TbAvocado,
+  "whole 30": TbTimeDuration30,
 };
 
 const DietIconList = ({ diets }: Props) => {
