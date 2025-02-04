@@ -17,9 +17,11 @@ interface FetchRecipesResponse {
 const useRecipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
+    setLoading(true);
     apiClient
       .get<FetchRecipesResponse>("/random?number=1&includeNutrition=false", {
         signal: controller.signal,
@@ -27,14 +29,16 @@ const useRecipes = () => {
       .then((response) => {
         console.log(response.data.recipes[0]);
         setRecipes(response.data.recipes);
+        setLoading(false);
       })
       .catch((error) => {
         if (error instanceof CanceledError) return;
         setError(error.message);
+        setLoading(false);
       });
   }, []);
 
-  return { recipes, error };
+  return { recipes, error, isLoading };
 };
 
 export default useRecipes;
