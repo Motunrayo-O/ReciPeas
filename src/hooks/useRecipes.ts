@@ -14,17 +14,23 @@ interface FetchRecipesResponse {
   recipes: Recipe[];
 }
 
-const useRecipes = () => {
+const useRecipes = (selectedIngredient: string | null) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
+
+  console.log(selectedIngredient);
 
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
     apiClient
-      .get<FetchRecipesResponse>("/random?number=1&includeNutrition=false", {
+      .get<FetchRecipesResponse>("/random", {
         signal: controller.signal,
+        params: {
+          number: 1,
+          includeNutrition: false,
+        },
       })
       .then((response) => {
         console.log(response.data.recipes[0]);
