@@ -1,15 +1,16 @@
+import React from "react";
+import useFilteredRecipes from "../hooks/useFilteredRecipes";
 import { SimpleGrid } from "@chakra-ui/react";
 import RecipeCard from "./RecipeCard";
 import SkeletonRecipeCard from "./SkeletonRecipeCard";
-import useRandomRecipes from "../hooks/useRandomRecipes";
 
-// interface Props {
-//   selectedIngredient: string | null;
-// }
+interface Props {
+  selectedIngredient: string;
+}
 
-const RecipesGrid = () => {
-  const { recipes, error, isLoading } = useRandomRecipes();
+const FilteredRecipesGrid = ({ selectedIngredient }: Props) => {
   const dummyRecipes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const { recipes, error, isLoading } = useFilteredRecipes(selectedIngredient);
 
   return (
     <>
@@ -34,4 +35,4 @@ const RecipesGrid = () => {
   );
 };
 
-export default RecipesGrid;
+export default FilteredRecipesGrid;

@@ -1,20 +1,9 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import { CanceledError } from "axios";
+import { Recipe } from "./useRandomRecipes";
 
-export interface Recipe {
-  id: number;
-  title: string;
-  image: string;
-  diets: string[];
-  readyInMinutes: number;
-}
-
-interface FetchRecipesResponse {
-  recipes: Recipe[];
-}
-
-const useRecipes = (selectedIngredient: string | null) => {
+const useRecipes = (selectedIngredient: string) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -23,29 +12,23 @@ const useRecipes = (selectedIngredient: string | null) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    const endpoint = selectedIngredient ? "/findByIngredients" : "/random";
 
-    const requestParams = {
-      number: 1,
+    const params = {
+      number: 5,
       includeNutrition: false,
+      ingredients: selectedIngredient,
     };
-    const params = selectedIngredient
-      ? requestParams
-      : {
-          ingredients: selectedIngredient,
-          ...requestParams,
-        };
 
     setLoading(true);
+    console.log("useFilteredRecipes params: " + JSON.stringify(params));
     apiClient
-      .get<FetchRecipesResponse>(endpoint, {
+      .get<Recipe[]>("/findByIngredients", {
         signal: controller.signal,
         params,
       })
       .then((response) => {
         console.log("response.data: " + JSON.stringify(response.data));
-        if (selectedIngredient) setRecipes(response.data.recipes);
-        else setRecipes(response.data.recipes);
+        setRecipes(response.data);
         setLoading(false);
       })
       .catch((error) => {

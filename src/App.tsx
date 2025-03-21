@@ -5,6 +5,7 @@ import RecipesGrid from "./components/RecipesGrid";
 import SidePanel from "./components/SidePanel";
 import IngredientsList from "./components/IngredientsList";
 import { useState } from "react";
+import FilteredRecipesGrid from "./components/FilteredRecipesGrid";
 
 function App() {
   const [selectedIngredient, setSelectedIngredient] = useState<string | null>(
@@ -32,7 +33,10 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main" marginTop={5}>
-        <RecipesGrid selectedIngredient={selectedIngredient} />
+        {!selectedIngredient && <RecipesGrid />}
+        {selectedIngredient && (
+          <FilteredRecipesGrid selectedIngredient={selectedIngredient} />
+        )}
       </GridItem>
     </Grid>
   );

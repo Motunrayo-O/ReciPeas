@@ -29,7 +29,7 @@ const iconMap: { [Key: string]: IconType } = {
 const DietIconList = ({ diets }: Props) => {
   return (
     <HStack marginY={1}>
-      {diets.map((diet) => (
+      {diets && diets.map((diet) => (
         <Icon key={diet} as={iconMap[diet]} color="gray.500" />
       ))}
     </HStack>

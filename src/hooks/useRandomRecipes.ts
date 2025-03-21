@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import { CanceledError } from "axios";
@@ -14,38 +15,29 @@ interface FetchRecipesResponse {
   recipes: Recipe[];
 }
 
-const useRecipes = (selectedIngredient: string | null) => {
+const useRandomRecipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  console.log("selectedIngredient: " + selectedIngredient);
 
   useEffect(() => {
     const controller = new AbortController();
-    const endpoint = selectedIngredient ? "/findByIngredients" : "/random";
 
-    const requestParams = {
+    const params = {
       number: 1,
       includeNutrition: false,
     };
-    const params = selectedIngredient
-      ? requestParams
-      : {
-          ingredients: selectedIngredient,
-          ...requestParams,
-        };
 
     setLoading(true);
     apiClient
-      .get<FetchRecipesResponse>(endpoint, {
+      .get<FetchRecipesResponse>("/random", {
         signal: controller.signal,
         params,
       })
       .then((response) => {
         console.log("response.data: " + JSON.stringify(response.data));
-        if (selectedIngredient) setRecipes(response.data.recipes);
-        else setRecipes(response.data.recipes);
+        setRecipes(response.data.recipes);
         setLoading(false);
       })
       .catch((error) => {
@@ -53,9 +45,9 @@ const useRecipes = (selectedIngredient: string | null) => {
         setError(error.message);
         setLoading(false);
       });
-  }, [selectedIngredient]);
+  }, []);
 
   return { recipes, error, isLoading };
 };
 
-export default useRecipes;
+export default useRandomRecipes;
